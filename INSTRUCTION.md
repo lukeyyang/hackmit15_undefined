@@ -3,7 +3,6 @@
 # initialization
 
 
-# FOR NOW ONLY DO THE FOLLOWING
 
 >- Install `pip`
   + `sudo easy_install pip`
@@ -20,6 +19,9 @@ of `virtualenv` may be different. The python I am using is Python 2.7.
   If it does not exist already in your machine, please use your favorite package
 manager (most likely you have one in your Linux) or [homebrew](brew.sh) (if you
 are running OS X) to install `sqlite3`
+
+
+## STOP HERE. ask lukeyyang for the Google API secret json file
 
 >- Run the web app
  + `python run.py`
