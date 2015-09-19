@@ -1,6 +1,6 @@
 # imports
 from flask import Flask, request, redirect, render_template
-from app import app#, db, models
+from app import app, db, models
 
 from apiclient import discovery
 from oauth2client import client
@@ -12,7 +12,7 @@ import httplib2
 # HTML - static HTML
 @app.route('/')
 def landing_page():
-  return render_template('main.html')
+  return render_template('index.html')
 
 # Google Login Test
 # code from https://developers.google.com/identity/protocols/OAuth2WebServer
@@ -31,12 +31,14 @@ def google_login():
     #print dir(people_service)
     people_resource = people_service.people()
     people_document = people_resource.get(userId='me').execute()
-    print "ID: " + people_document['id']
-    print people_document
+    print "DEBUG: authenticated Google ID: " + people_document['id']
+    db.session.add(models.User(google_id = people_document['id']))
+    db.session.commit()
+    uid = models.User.query.filter_by(\
+        google_id = people_document['id']).first().id
+    print "DEBUG: User with uid = " + str(uid) + " created"
+    return welcome_page(uid = uid) 
 
-    return "Your Google ID is " + people_document['id']
-
-    
 
 @app.route('/oauth2callback')
 def oauth2callback():
@@ -53,6 +55,9 @@ def oauth2callback():
     flask.session['credentials'] = credentials.to_json()
     return flask.redirect(flask.url_for('google_login'))
 
+@app.route('/welcome/<uid>')
+def welcome_page(uid = None):
+  return render_template('welcome.html', uid = uid)
       
 
 

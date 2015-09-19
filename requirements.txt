@@ -1,5 +1,7 @@
 Flask==0.10.1
 Flask-SQLALchemy==1.0
+SQLAlchemy==0.9.8
+SQLAlchemy-Migrate==0.9.2
 oauth2client
 apiclient
 urllib3

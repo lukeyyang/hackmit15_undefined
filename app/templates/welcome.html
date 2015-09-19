@@ -1,0 +1,7 @@
+<!doctype html>
+<title>Welcome</title>
+{% if uid %}
+<div>Hello UID {{ uid }}! </div>
+  {% else %}
+  <div>error: uid is empty</div>
+{% endif %}

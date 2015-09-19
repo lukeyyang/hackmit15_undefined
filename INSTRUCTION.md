@@ -25,13 +25,11 @@ are running OS X) to install `sqlite3`
  + `python run.py`
  + check out 127.0.0.1:5000 in your browser
 
-# STOP HERE. 
 
 >- Initialize the database 
 
  + `mkdir tmp`
  + `python db_create.py` 
- + `python load.py` 
 
 
 >- Reset the database
