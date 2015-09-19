@@ -21,6 +21,9 @@ of `virtualenv` may be different. The python I am using is Python 2.7.
 manager (most likely you have one in your Linux) or [homebrew](brew.sh) (if you
 are running OS X) to install `sqlite3`
 
+>- Run the web app
+ + `python run.py`
+ + check out 127.0.0.1:5000 in your browser
 
 # STOP HERE. 
 
@@ -34,5 +37,4 @@ are running OS X) to install `sqlite3`
 >- Reset the database
  + `rm tmp/hh.py`
 
->- Run the web app
- + `python run.py`
+
