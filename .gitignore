@@ -65,3 +65,6 @@ target/
 
 # database
 db_repository/
+
+# secret
+client_secret.json
