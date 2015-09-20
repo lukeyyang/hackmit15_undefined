@@ -78,11 +78,43 @@ def new_poll():
       newPoll.title = form.title.data
       newPoll.detail = form.detail.data
       newPoll.deadline = form.deadline.data
+      #print("Here")
+      #Deal with choices
+      choice1 = Choice()
+      choice1.content = form.choice.data
+
+      if form.choice2.data:
+        choice2 = Choice()
+        choice2.content = form.choice2.data
+        newPoll.choices.append(choice2)
+        db.session.add(choice2)
+
+      if form.choice3.data:
+        choice3 = Choice()
+        choice3.content = form.choice3.data
+        newPoll.choices.append(choice3)
+        db.session.add(choice3)
+
+      if form.choice4.data:
+        choice4 = Choice()
+        choice4.content = form.choice4.data
+        newPoll.choices.append(choice4)
+        db.session.add(choice4)
+
+      if form.choice5.data:
+        choice5 = Choice()
+        choice5.content = form.choice5.data
+        newPoll.choices.append(choice5)
+        db.session.add(choice5)
+
+      newPoll.choices.append(choice1)
+      db.session.add(choice1)
       db.session.add(newPoll)
       db.session.commit()
       flash('New Poll submitted for Title="%s", Detail=%s, Deadline=%s' %
               (form.title.data, str(form.detail.data), str(form.deadline.data)))
       return redirect('/')
+
     return render_template('new_poll.html', 
                            title='New Poll',
                            form=form)

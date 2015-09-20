@@ -17,6 +17,21 @@
 	  	<div class="form-group">
 	    	{{ form.choice(class="form-control", placeholder="New Choice") }}
 	  	</div>
+	  	<div class="choices hideChoice form-group ">
+	    	{{ form.choice2(class="form-control", placeholder="New Choice") }} 	
+	  	</div>
+	  	<div class="choices hideChoice2 form-group ">
+	    	{{ form.choice3(class="form-control", placeholder="New Choice") }} 	
+	  	</div>
+	  	<div class="choices hideChoice3 form-group ">
+	    	{{ form.choice4(class="form-control", placeholder="New Choice") }} 	
+	  	</div>
+	  	<div class="choices hideChoice4 form-group ">
+	    	{{ form.choice5(class="form-control", placeholder="New Choice") }} 	
+	  	</div>
+	  	<div class="form-group">
+	  		<button type="button" class="add-choice btn btn-default navbar-btn">Add a Choice</button>
+	  	</div>
 	  	<div class="form-group">
 	    	{{ form.deadline(class="form-control", placeholder="Deadline") }}
 	  	</div>
@@ -33,11 +48,34 @@
 	  		Type of Vote
 	  		</div>
 	  		<div class="col-md-6">
-	    		{{ form.individual}}
+	    		{{ form.individual }}
 	    	</div>
 	  	</div>
 	    <p style="padding-left:180px"><input class="btn btn-primary" type="submit" value="Create New Vote!"></p>
   	</form>
 </div>
+
+<script>
+	$(document).ready(function(){
+		var number = 1;
+	    $(".choices").hide();
+	    $(".add-choice").click(function(){
+	    	if (number === 1){
+	    		$(".hideChoice").slideToggle();
+	    		number++;
+	    	} else if (number === 2){
+	    		$(".hideChoice2").slideToggle();
+	    		number++;
+	    	} else if (number === 3){
+	    		$(".hideChoice3").slideToggle();
+	    		number++;
+	    	} else if (number === 4){
+	    		$(".hideChoice4").slideToggle();
+	    		number++;
+	    	} 
+	        
+	    });
+	});
+</script>
 
 {% endblock %}
