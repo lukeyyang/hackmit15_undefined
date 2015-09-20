@@ -24,7 +24,14 @@ class Choice(db.Model):
     content = db.Column(db.String(64))
     poll_id = db.Column(db.Integer, db.ForeignKey('poll.id'))
 
+    votes = db.Column(db.Integer)
+
+    
+    def __init__(self):
+        votes = 0
+
     def __repr__(self):
         return '<Choice %r>' % (self.content)
+
 
   

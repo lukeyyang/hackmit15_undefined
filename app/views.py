@@ -1,7 +1,7 @@
 # imports
 from flask import Flask, request, redirect, render_template, flash
 from app import app, db, models
-from .forms import NewPollForm
+from .forms import NewPollForm, HelpOthersForm
 from models import Poll, Choice
 
 from apiclient import discovery
@@ -87,5 +87,22 @@ def new_poll():
                            title='New Poll',
                            form=form)
       
+@app.route('/help_others', methods=['GET', 'POST'])
+def help_others():
+    form = HelpOthersForm()
+    #choice = Choice.query.filter_by(id=0).first_or_404()
 
+    #polls = Poll.query.filter_by(id=0).first()
+    poll = models.Poll.query.first()
+
+
+    if form.validate_on_submit():
+      if form.choose_this.data == True:
+        choice.votes+=1
+      flash('Decision made for votes="%s"' % (choice.votes))
+      return redirect('/')
+    return render_template('help_others.html', 
+                            title="Help Others", 
+                            form=form,
+                            poll=poll)
 
