@@ -25,7 +25,7 @@ class JoinGroupForm(Form):
 	number = IntegerField('number', validators=[DataRequired()])
 
 class GroupVoteForm(Form):
-	possibilities = RadioField('possible', validators=[DataRequired()])
+	possibilities = RadioField('possible',)
 
 def generate_form(poll):
 	form = GroupVoteForm()

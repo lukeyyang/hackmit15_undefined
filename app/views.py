@@ -1,5 +1,5 @@
 # imports
-from flask import Flask, request, redirect, render_template, flash
+from flask import Flask, request, redirect, render_template, flash, url_for
 from app import app, db, models
 from .forms import NewPollForm, HelpOthersForm, JoinGroupForm, GroupVoteForm, generate_form, generate_help_others_form
 from models import Poll, Choice
@@ -129,16 +129,33 @@ def join_group():
   form = JoinGroupForm()
   if form.validate_on_submit():
     postID = form.number.data
-    print(postID)
-    return show_poll(postID)
+    return redirect(url_for('group_vote', poll_id=postID))
   return render_template('join.html', title='Join', form=form)
 
-@app.route('/poll/<int:poll_id>')
-def show_poll(poll_id):
+@app.route('/poll/vote/<int:poll_id>', methods=['GET', 'POST'])
+def group_vote(poll_id):
     # show the post with the given id, the id is an integer
     poll = models.Poll.query.get(poll_id)
     form = generate_form(poll)
+    if form.is_submitted():
+      print("Hereeee")
+      val = form.possibilities.data
+
+      choi = models.Choice.query.get(val)
+      if choi is not None:
+        if choi.votes is None:
+          choi.votes = 0
+        choi.votes = choi.votes+1
+        db.session.commit()
+        
+      return redirect(url_for('show_vote', poll_id=poll_id))
     return render_template('group_poll.html',title='Group Vote',form=form)
+
+@app.route('/poll/<int:poll_id>', methods=['GET', 'POST'])
+def show_vote(poll_id):
+    # show the post with the given id, the id is an integer
+    poll = models.Poll.query.get(poll_id)
+    return render_template('show_poll.html',title='Vote Result',poll=poll)
       
 @app.route('/help_others', methods=['GET', 'POST'])
 def help_others():
