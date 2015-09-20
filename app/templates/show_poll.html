@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+<div style="margin: 0px auto; max-width: 500px;">
+    <h3 style="padding-top: 20px; padding-left:180px; padding-bottom:20px">{{ title }}</h3>
+      	{% for results in poll.choices %}
+	      	<div class="row">
+	      		<div class="col-md-8"> {{results.content}} </div>
+	      		<div class="col-md-4"> {{results.votes}} </div>
+	      	</div>
+      	{% endfor %}
+  	</form>
+</div>
+
+{% endblock %}
