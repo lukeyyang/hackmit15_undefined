@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+<div style="margin: 0px auto; max-width: 500px;">
+    <h3 style="padding-top: 20px; padding-left:180px; padding-bottom:20px">{{ title }}</h3>
+	<form class="form form-horizontal" action="" method="post" name="new_poll">
+      
+	    {{ form.hidden_tag() }}
+		<div class="form-group">
+	    	{{ form.possibilities }}
+	  	</div>
+	    
+	    <p style="padding-left:180px"><input class="btn btn-primary" type="submit" value="Create New Vote!"></p>
+  	</form>
+</div>
+
+{% endblock %}

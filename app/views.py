@@ -1,7 +1,7 @@
 # imports
 from flask import Flask, request, redirect, render_template, flash
 from app import app, db, models
-from .forms import NewPollForm, HelpOthersForm
+from .forms import NewPollForm, HelpOthersForm, JoinGroupForm, GroupVoteForm, generate_form, generate_help_others_form
 from models import Poll, Choice
 
 from apiclient import discovery
@@ -82,28 +82,33 @@ def new_poll():
       #Deal with choices
       choice1 = Choice()
       choice1.content = form.choice.data
+      choice1.votes = 0
 
       if form.choice2.data:
         choice2 = Choice()
         choice2.content = form.choice2.data
+        choice2.votes = 0
         newPoll.choices.append(choice2)
         db.session.add(choice2)
 
       if form.choice3.data:
         choice3 = Choice()
         choice3.content = form.choice3.data
+        choice3.votes = 0
         newPoll.choices.append(choice3)
         db.session.add(choice3)
 
       if form.choice4.data:
         choice4 = Choice()
         choice4.content = form.choice4.data
+        choice4.votes = 0
         newPoll.choices.append(choice4)
         db.session.add(choice4)
 
       if form.choice5.data:
         choice5 = Choice()
         choice5.content = form.choice5.data
+        choice5.votes = 0
         newPoll.choices.append(choice5)
         db.session.add(choice5)
 
@@ -118,21 +123,48 @@ def new_poll():
     return render_template('new_poll.html', 
                            title='New Poll',
                            form=form)
+
+@app.route('/join', methods=['GET', 'POST'])
+def join_group():
+  form = JoinGroupForm()
+  if form.validate_on_submit():
+    postID = form.number.data
+    print(postID)
+    return show_poll(postID)
+  return render_template('join.html', title='Join', form=form)
+
+@app.route('/poll/<int:poll_id>')
+def show_poll(poll_id):
+    # show the post with the given id, the id is an integer
+    poll = models.Poll.query.get(poll_id)
+    form = generate_form(poll)
+    return render_template('group_poll.html',title='Group Vote',form=form)
       
 @app.route('/help_others', methods=['GET', 'POST'])
 def help_others():
-    form = HelpOthersForm()
     #choice = Choice.query.filter_by(id=0).first_or_404()
 
     #polls = Poll.query.filter_by(id=0).first()
-    poll = models.Poll.query.first()
+    poll = models.Poll.query.get(1)
+    #form = generate_help_others_form(poll)
 
+    form = HelpOthersForm()
+    form.choice_checked.choices = [(item.id, item.content) for item in poll.choices]    #print (len(form.choice_checked.choices))
 
     if form.validate_on_submit():
-      if form.choose_this.data == True:
-        choice.votes+=1
+      print(poll.title)
+      index = form.choice_checked.data
+      print(index)
+      choice = models.Choice.query.get(index)
+      choice.votes += 1
+      db.session.commit()
+
+      #if form.choose_this.data == True:
+        #choice.votes+=1
       flash('Decision made for votes="%s"' % (choice.votes))
       return redirect('/')
+    else:
+      print 'WRONG!!!'
     return render_template('help_others.html', 
                             title="Help Others", 
                             form=form,

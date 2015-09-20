@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+<div style="margin: 0px auto; max-width: 300px;">
+    <h3 style="padding-top: 20px; padding-left:110px; padding-bottom:20px">{{ title }}</h3>
+
+    <form class="form form-horizontal" action="" method="post" name="join">
+
+    	{{ form.hidden_tag() }}
+
+    	<div class="form-group">
+	    	{{ form.number(class="form-control", placeholder="Vote ID") }}
+	  	</div>
+
+    	<p style="padding-left:90px"><input class="btn btn-primary" type="submit" value="Join to Vote!"></p>
+    </form>
+
+</div>
+{% endblock %}

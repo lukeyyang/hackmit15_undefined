@@ -26,12 +26,8 @@ class Choice(db.Model):
 
     votes = db.Column(db.Integer)
 
-    
-    def __init__(self):
-        votes = 0
+
 
     def __repr__(self):
         return '<Choice %r>' % (self.content)
 
-
-  
