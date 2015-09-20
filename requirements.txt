@@ -6,3 +6,5 @@ oauth2client
 apiclient
 urllib3
 google-api-python-client
+Flask-Bootstrap
+Flask-Wtf

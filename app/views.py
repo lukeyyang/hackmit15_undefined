@@ -1,6 +1,8 @@
 # imports
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, flash
 from app import app, db, models
+from .forms import NewPollForm
+from models import Poll, Choice
 
 from apiclient import discovery
 from oauth2client import client
@@ -58,6 +60,32 @@ def oauth2callback():
 @app.route('/welcome/<uid>')
 def welcome_page(uid = None):
   return render_template('welcome.html', uid = uid)
+
+@app.route('/new_poll', methods=['GET', 'POST'])
+def new_poll():
+    form = NewPollForm()
+    form.title(placeholder="Title")
+    if form.validate_on_submit():
+      newPoll = Poll()
+      if form.individual.data == 'yes':
+        newPoll.individual = True
+      else:
+        newPoll.individual = False;
+      if form.equality.data == 'yes':
+        newPoll.equality = True
+      else:
+        newPoll.equality = False
+      newPoll.title = form.title.data
+      newPoll.detail = form.detail.data
+      newPoll.deadline = form.deadline.data
+      db.session.add(newPoll)
+      db.session.commit()
+      flash('New Poll submitted for Title="%s", Detail=%s, Deadline=%s' %
+              (form.title.data, str(form.detail.data), str(form.deadline.data)))
+      return redirect('/')
+    return render_template('new_poll.html', 
+                           title='New Poll',
+                           form=form)
       
 
 
