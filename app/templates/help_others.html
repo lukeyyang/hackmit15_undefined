@@ -9,9 +9,18 @@
 	<form class="form form-horizontal" action="" method="post" name="help_others">
 		{{ form.hidden_tag() }}
 
+		{% for choice in poll.choices %}
 		<div class="form-group">
-			{{ form.choose_this}} {{poll.title}}
+			{{checkBoxName = 'choice'+ str(loop.index)+'_checked' }}
+			 {{form.checkBoxName}} {{choice.content}}
+
+			{% if loop.index == 1 %}
+			{{  }}
+			{% endif %}
+	
 		</div>
+		{% endfor %}
+
 		<p style="padding-left:180px"><input class="btn btn-primary" type="submit" value="Make The Decision"></p>
 	</form>
 </div>
