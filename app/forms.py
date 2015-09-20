@@ -17,4 +17,8 @@ class NewPollForm(Form):
     remember_me = BooleanField('remember_me', default=False)
 
 class HelpOthersForm(Form):
-	choose_this = BooleanField('choose_this', default=False)
+	choice1_checked = BooleanField('choice1_checked', default=False)
+	choice2_checked = BooleanField('choice2_checked', default=False)
+	choice3_checked = BooleanField('choice3_checked', default=False)
+	choice4_checked = BooleanField('choice4_checked', default=False)
+	choice5_checked = BooleanField('choice5_checked', default=False)
