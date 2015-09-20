@@ -37,6 +37,6 @@ def generate_form(poll):
 def generate_help_others_form(poll):
 	form = HelpOthersForm()
 	if poll.choices is not None:
-		print("Not None")
+		#print("Not None")
 		form.choice_checked.choices = [(item.id, item.content)for item in poll.choices]
 	return form

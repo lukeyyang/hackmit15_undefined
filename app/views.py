@@ -10,6 +10,7 @@ from oauth2client import client
 import json
 import flask
 import httplib2
+import random
 
 # HTML - static HTML
 @app.route('/')
@@ -162,24 +163,28 @@ def help_others():
     #choice = Choice.query.filter_by(id=0).first_or_404()
 
     #polls = Poll.query.filter_by(id=0).first()
-    poll = models.Poll.query.get(1)
-    #form = generate_help_others_form(poll)
+    num_poll = random.randint(1, len(models.Poll.query.all()))
+    print(num_poll)
+    poll = models.Poll.query.get(num_poll)
+    form = generate_help_others_form(poll)
 
-    form = HelpOthersForm()
-    form.choice_checked.choices = [(item.id, item.content) for item in poll.choices]    #print (len(form.choice_checked.choices))
+    #poll_ptr = num_poll
+    #form = HelpOthersForm()
+    #form.choice_checked.choices = [(item.id, item.content) for item in poll.choices]    #print (len(form.choice_checked.choices))
 
-    if form.validate_on_submit():
-      print(poll.title)
+    if form.is_submitted():
+      #print(poll.title)
       index = form.choice_checked.data
-      print(index)
+      #print(index)
       choice = models.Choice.query.get(index)
       choice.votes += 1
       db.session.commit()
 
       #if form.choose_this.data == True:
         #choice.votes+=1
-      flash('Decision made for votes="%s"' % (choice.votes))
-      return redirect('/')
+      #flash('Votes made for "%s"="%s"' % (choice.content, choice.votes))
+      print(num_poll)
+      return redirect(url_for('show_vote', poll_id=choice.poll_id))
     else:
       print 'WRONG!!!'
     return render_template('help_others.html', 
