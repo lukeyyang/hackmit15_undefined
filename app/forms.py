@@ -1,7 +1,9 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, BooleanField, TextAreaField, RadioField
+from wtforms import StringField, BooleanField, TextAreaField, RadioField, IntegerField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired
+from app import app, db, models
+from models import Poll, Choice
 
 class NewPollForm(Form):
     title = StringField(validators=[DataRequired()])
@@ -15,3 +17,16 @@ class NewPollForm(Form):
     equality = RadioField('equality', choices=[('yes','One Vote for Each'),('no','Respect to Ability')])
     individual = RadioField('individual', choices=[('yes','Individual'),('no','Group')])
     remember_me = BooleanField('remember_me', default=False)
+
+class JoinGroupForm(Form):
+	number = IntegerField('number', validators=[DataRequired()])
+
+class GroupVoteForm(Form):
+	possibilities = RadioField('possible', validators=[DataRequired()])
+
+def generate_form(poll):
+	form = GroupVoteForm()
+	if poll.choices is not None:
+		form.possibilities.choices = [(item.id, item.content)
+        for item in poll.choices]
+	return form

@@ -1,7 +1,7 @@
 # imports
 from flask import Flask, request, redirect, render_template, flash
 from app import app, db, models
-from .forms import NewPollForm
+from .forms import NewPollForm, JoinGroupForm, GroupVoteForm, generate_form
 from models import Poll, Choice
 
 from apiclient import discovery
@@ -118,6 +118,22 @@ def new_poll():
     return render_template('new_poll.html', 
                            title='New Poll',
                            form=form)
+
+@app.route('/join', methods=['GET', 'POST'])
+def join_group():
+  form = JoinGroupForm()
+  if form.validate_on_submit():
+    postID = form.number.data
+    print(postID)
+    return show_poll(postID)
+  return render_template('join.html', title='Join', form=form)
+
+@app.route('/poll/<int:poll_id>')
+def show_poll(poll_id):
+    # show the post with the given id, the id is an integer
+    poll = models.Poll.query.get(poll_id)
+    form = generate_form(poll)
+    return render_template('group_poll.html',title='Group Vote',form=form)
       
 
 
